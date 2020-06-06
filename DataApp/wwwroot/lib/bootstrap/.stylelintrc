@@ -10,7 +10,6 @@
       "border-bottom-right-radius",
       "border-bottom-left-radius",
       "transition"
-    ],
-    "function-blacklist": ["calc"]
+    ]
   }
 }

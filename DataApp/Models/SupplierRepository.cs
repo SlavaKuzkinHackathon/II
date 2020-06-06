@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DataApp.Models
 {
@@ -20,6 +22,20 @@ namespace DataApp.Models
         }
 
         public IEnumerable<Supplier> GetAll() {
+            //return context.Suppliers.Include(s => s.Products);
+
+            /* IEnumerable<Supplier> data = context.Suppliers.ToArray();
+             foreach (Supplier s in data) {
+                 context.Entry(s).Collection(e => e.Products)
+                     .Query()
+                     .Where(p => p.Price > 50)
+                     .Load();
+             }
+             return data;*/
+
+
+            // two queries required for this example
+            context.Products.Where(p => p.Supplier != null && p.Price > 50).Load();
             return context.Suppliers;
         }
 

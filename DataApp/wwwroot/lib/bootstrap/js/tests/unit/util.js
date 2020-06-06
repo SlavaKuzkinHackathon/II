@@ -160,9 +160,4 @@ $(function () {
       sandbox.restore()
     }
   })
-
-  QUnit.test('Util.jQueryDetection should detect jQuery', function (assert) {
-    assert.expect(0)
-    Util.jQueryDetection()
-  })
 })
