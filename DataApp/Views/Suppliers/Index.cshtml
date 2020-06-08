@@ -12,12 +12,16 @@
         Изменить</a>
     <a asp-action="Create" asp-route-id="@s.Id"
        class="btn btn-sm btn-danger">Добавить</a>
+    <a asp-action="Change" asp-route-id="@s.Id"
+       class="btn btn-sm btn-primary">Изменить</a>
     </h4>
     <div class="container-fluid">
         @if (s.Products == null || s.Products.Count() == 0) {
         <div class="p-1 text-center">Нет продукции</div>
-            } else if(ViewBag.SupplierEditId == s.Id) {
+        } else if (ViewBag.SupplierEditId == s.Id) {
             @Html.Partial("Editor", s);
+        }else if (ViewBag.SupplierRelationshipId == s.Id) {
+            @Html.Partial("RelationshipEditor", (s,Model));
         }else{
         @foreach (Product p in s.Products){
         <div class="row p-1">
