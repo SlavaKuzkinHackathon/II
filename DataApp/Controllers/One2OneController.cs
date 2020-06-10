@@ -22,17 +22,40 @@ namespace DataApp.Controllers
         public IActionResult Create() => View("ContactEditor");
 
         public IActionResult Edit(long id) {
+            ViewBag.Suppiers = context.Suppliers.Include(s => s.Contact);
             return View("ContactEditor",
                 context.Set<ContactDetails>()
                 .Include(cd => cd.Supplier).First(cd => cd.Id == id));
         }
 
         [HttpPost]
-        public IActionResult Update(ContactDetails details) {
+        public IActionResult Update(ContactDetails details, 
+            long? targetSupplierId, long[] spares) {
             if (details.Id == 0) {
                 context.Add<ContactDetails>(details);
             }else {
                 context.Update<ContactDetails>(details);
+
+                if (targetSupplierId.HasValue)
+                {
+                    if (spares.Contains(targetSupplierId.Value))
+                    {
+                        details.SupplierId = targetSupplierId.Value;
+                    } else {
+                        ContactDetails targetDetails = context.Set<ContactDetails>()
+                            .FirstOrDefault(cd => cd.SupplierId == targetSupplierId);
+                        targetDetails.SupplierId = null;
+                       // targetDetails.SupplierId = details.Supplier.Id;
+                       // Supplier temp = new Supplier { Name = "temp"};
+                        //details.Supplier = temp;
+                       // context.SaveChanges();
+
+                        //temp.Contact = null;
+                        details.SupplierId = targetSupplierId.Value;
+                        //context.Suppliers.Remove(temp);
+                        context.SaveChanges();
+                    }
+                }
             }
             context.SaveChanges();
             return RedirectToAction(nameof(Index));

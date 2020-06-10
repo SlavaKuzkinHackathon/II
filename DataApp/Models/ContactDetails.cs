@@ -7,7 +7,7 @@
         public string Phone { get; set; }
         public ContactLocation Location { get; set; }
 
-        public long SupplierId { get; set; }
+        public long? SupplierId { get; set; }
         public Supplier Supplier { get; set; }
     }
 }

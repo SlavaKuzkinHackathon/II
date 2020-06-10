@@ -35,7 +35,7 @@
                 <input asp-for="Supplier.State" class="form-control" />
             </div>
         </div>
-        @if (ViewBag.Suppliers != null)
+        @if(ViewBag.Suppliers != null)
         {
             @Html.Partial("RelationshipEditor", Model.SupplierId)
         }
