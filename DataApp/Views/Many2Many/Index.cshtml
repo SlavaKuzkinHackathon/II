@@ -1,0 +1,53 @@
+﻿@model DataApp.Controllers.ProductShipmentViewModel
+@{
+    ViewData["Title"] = "Многие к Многим";
+    Layout = "_Layout";
+}
+<h4>Доставка</h4>
+<table class="table table-sm table-striped">
+    <tr><th>№</th><th>Имя</th><th>Наименование продукта</th><th></th></tr>
+    @if (Model.Shipments?.Count() > 0)
+    {
+        @foreach (Shipment s in Model.Shipments)
+        {
+            <tr>
+                <td>@s.Id</td>
+                <td>@s.ShipName</td>
+                <td>
+                    @(string.Join(", ", s.ProductShipments
+                                 .Select(ps => ps.Product.Name)))
+                </td>
+                <td>
+                    <a asp-action="EditShipment" asp-route-id="@s.Id"
+                       class="btn btn-sm btn-primary">Изменить</a>
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr><td colspan="3" class="text-center">Нет данных</td></tr>
+    }
+</table>
+<h4>Продукция</h4>
+<table class="table table-sm table-striped">
+    <tr><th>№</th><th>Наименование</th><th>Имя доставщика</th></tr>
+    @if (Model.Products?.Count() > 0)
+    {
+        @foreach (Product p in Model.Products)
+        {
+            <tr>
+                <td>@p.Id</td>
+                <td>@p.Name</td>
+                <td colspan="2">
+                    @(string.Join(", ", p.ProductShipments
+                         .Select(ps => ps.Shipment.ShipName)))
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr><td colspan="3" class="text-center">Нет данных</td></tr>
+    }
+</table>
